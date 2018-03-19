@@ -10,8 +10,7 @@ public class Lab
         {
             if (tableMap.containsKey(x))
             {
-                System.out.println("Table already have value for x = " + x);
-                throw new NullPointerException();
+                throw new IllegalArgumentException();
             }
             else
             {
@@ -29,29 +28,29 @@ public class Lab
             }
             else
             {
-                System.out.println("Table doesn't contain x = " + x);
-                throw new NullPointerException();
+                throw new IllegalArgumentException();
             }
         }
 
-        public int findCloseValue(double x0)
+        public double[] findCloseValue(double x0)
         {
             if (tableMap.isEmpty())
             {
-                System.out.println("Table is empty");
-                throw new NullPointerException();
+                throw new NegativeArraySizeException();
             }
             else if (x0 <= tableMap.firstKey())
             {
-                Map.Entry<Double, Double> entry = tableMap.firstEntry();
-                System.out.println("Closest pair for " + x0 + ": x = " + entry.getKey() + " y = " + entry.getValue());
-                return 0;
+                double[] pair = new double[2];
+                pair[0] = tableMap.firstEntry().getKey();
+                pair[1] = tableMap.firstEntry().getValue();
+                return pair;
             }
             else if (x0 >= tableMap.lastKey())
             {
-                Map.Entry<Double, Double> entry = tableMap.lastEntry();
-                System.out.println("Closest pair for " + x0 + ": x = " + entry.getKey() + " y = " + entry.getValue());
-                return 0;
+                double[] pair = new double[2];
+                pair[0] = tableMap.lastEntry().getKey();
+                pair[1] = tableMap.lastEntry().getValue();
+                return pair;
             }
             else
             {
@@ -64,13 +63,17 @@ public class Lab
                     {
                         if (x0 - prevEntry.getKey() <= (curEntry.getKey() - prevEntry.getKey())/2)
                         {
-                            System.out.println("Closest pair for " + x0 + ": x = " + prevEntry.getKey() + " y = " + prevEntry.getValue());
-                            return 0;
+                            double[] pair = new double[2];
+                            pair[0] = prevEntry.getKey();
+                            pair[1] = prevEntry.getValue();
+                            return pair;
                         }
                         else
                         {
-                            System.out.println("Closest pair for " + x0 + ": x = " + curEntry.getKey() + " y = " + curEntry.getValue());
-                            return 0;
+                            double[] pair = new double[2];
+                            pair[0] = curEntry.getKey();
+                            pair[1] = curEntry.getValue();
+                            return pair;
                         }
                     }
                     prevEntry = curEntry;
@@ -84,8 +87,7 @@ public class Lab
             double result = 0;
             if (x < tableMap.firstKey() || x > tableMap.lastKey())
             {
-                System.out.println("x goes beyond boundaries of keys");
-                throw new NullPointerException();
+                throw new ArrayIndexOutOfBoundsException();
             }
             else
             {
@@ -107,21 +109,22 @@ public class Lab
             return result;
         }
 
-        public int printTable()
+        @Override
+        public String toString()
         {
             if (!tableMap.isEmpty())
             {
-                System.out.println("x     |    y  ");
+                String table = "";
+                table += "x     |    y\n";
                 for (Map.Entry<Double, Double> entry : tableMap.entrySet())
                 {
-                    System.out.println(entry.getKey() + "        " + entry.getValue());
+                    table += entry.getKey() + "        " + entry.getValue() + "\n";
                 }
-                return 0;
+                return table;
             }
             else
             {
-                System.out.println("Table is empty!");
-                throw new NullPointerException();
+                return "Table is empty!";
             }
         }
     }
